@@ -1,1 +1,153 @@
 /* You can add global styles to this file, and also import other style files */
+@import "./theme.scss";
+@import "./normalize.css";
+@import "./flexboxgrid.min.css";
+
+$light: #e2e2e2;
+$lighter: #f3f3f3;
+$dark-light: #9e9e9e;
+
+$dark:  #2a2a2a;
+$darker: #191919;
+
+body {
+    background-color: #303030;
+}
+
+.raised {
+    background-color: #383838;
+    border-left: 1px solid #414141;
+}
+
+.main-container {
+    width: 100vw !important;
+    height: 100vh !important;
+    display: flex;
+    flex-direction: column;
+}
+
+//Components
+input {
+    //Styles
+    background-color: #303030;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: "Roboto", serif;
+    color: #e2e2e2;
+    padding: 8px;
+    margin-bottom: 8px;
+}
+
+select {
+    //Styles
+    background-color: #303030;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: "Roboto", serif;
+    color: #e2e2e2;
+    padding: 8px;
+    margin-bottom: 8px;
+}
+
+select:focus {
+    outline-width: 0;
+}
+
+select:hover {
+    color: $lighter;
+}
+
+.column-radio-group {
+    display: flex;
+    flex-direction: column;
+
+    mat-radio-button {
+        margin-top: 4px;
+        margin-bottom: 4px;
+        color: #e2e2e2;
+    }
+}
+
+.color-input {
+    background-color: white;
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 24px;
+}
+
+//Typeography
+.light {
+    color: $light;
+}
+
+.lighter {
+    color: $lighter;
+}
+
+.dark-light {
+    color: $dark-light;
+}
+
+//Toolbar
+.mat-toolbar {
+    background-color: $primary;
+}
+
+.toolbar-spacer {
+    flex: 1 1 auto;
+}
+
+//Flexbox
+.flex {
+    display: flex;
+}
+
+.flex-fill-height {
+    flex-grow: 1;
+}
+
+.flex-center-vertical {
+    align-items: center;
+}
+
+.flex-center-horizontal {
+    justify-content: center;
+}
+
+.flex-grow-horizontal {
+    flex: 1 1 auto;
+}
+
+//Flex grid
+.row {
+    margin: 0px;
+}
+
+//Other
+.padding-left {
+    padding-left: 16px;
+}
+
+.padding-right {
+    padding-right: 32px;
+}
+
+.no-padding {
+    padding: 0px !important;
+}
+
+.margin-left {
+    margin-left: 16px;
+}
+
+.margin-right {
+    margin-right: 16px;
+}
+
+.margin-top {
+    margin-top: 8px
+}
+
+.no-margin {
+    margin: 0px !important;
+}

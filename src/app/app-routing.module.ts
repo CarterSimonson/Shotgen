@@ -1,7 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-const routes: Routes = [];
+//Import components
+import { EditorComponent } from './pages/editor/editor.component';
+
+const routes: Routes = [
+  { path: '', component: EditorComponent }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
