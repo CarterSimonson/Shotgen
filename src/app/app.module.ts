@@ -12,13 +12,15 @@ import { MaterialModule } from './material.module';
 import { EditorComponent } from './pages/editor/editor.component';
 import { ImagePickerComponent } from './components/image-picker/image-picker.component';
 import { ColorPickerComponent } from './components/color-picker/color-picker.component';
+import { DeviceColorPickerComponent } from './components/device-color-picker/device-color-picker.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     EditorComponent,
     ImagePickerComponent,
-    ColorPickerComponent
+    ColorPickerComponent,
+    DeviceColorPickerComponent
   ],
   imports: [
     BrowserModule,
