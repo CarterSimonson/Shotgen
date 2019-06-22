@@ -1,0 +1,107 @@
+<div class="main-container">
+    <mat-toolbar>
+        <mat-toolbar-row>
+            <span>Editor</span>
+            <span class="toolbar-spacer"></span>
+            <button mat-button>Export</button>
+        </mat-toolbar-row>
+    </mat-toolbar>
+    <div class="row flex-fill-height">
+        <div class="col-xs-8 flex flex-center-horizontal flex-center-vertical">
+            <div id="canvasContainer" style="position: relative">
+                <canvas class="renderCanvas" id="backgroundCanvas"></canvas>
+                <canvas class="renderCanvas" id="captionCanvas"></canvas>
+                <canvas class="renderCanvas" id="screenshotCanvas"></canvas>
+                <canvas class="renderCanvas" id="deviceCanvas"></canvas>
+            </div>
+        </div>
+        <div class="col-xs-4 raised editor-options" style="height: 100% !important; overflow-y: scroll;">
+            <!-- Caption settings -->
+            <div class="editor-row">
+                <p class="mat-h1 dark-light">Device</p>
+                <div class="row">
+                    <div class="col-auto">
+                        <select [(ngModel)]="canvasController.canvasConfig.deviceConfig" (ngModelChange)="deviceChanged($event)"> 
+                            <option *ngFor="let device of deviceOptions" [ngValue]="device">{{ device.name }}</option>
+                        </select>
+                    </div>
+                </div>
+                <app-device-color-picker [device]="canvasController.canvasConfig.deviceConfig" (colorSelected)="deviceColorChanged($event)"></app-device-color-picker>
+            </div>
+
+            <!-- Caption settings -->
+            <div class="editor-row">
+                <p class="mat-h1 dark-light">Caption</p>
+                <input class="flex flex-grow-horizontal" placeholder="Text" 
+                [(ngModel)]="canvasController.canvasConfig.text" (input)="captionChanged($event.target.value)">
+                
+                <div class="row margin-top">
+                    <div class="padding-right border-right">
+                        <p class="mat-body dark-light">Typeography</p>
+                        <div>
+                            <select [(ngModel)]="canvasController.canvasConfig.font" (change)="fontSelectionChanged($event.target.value)">
+                                <option *ngFor="let font of fontOptions" value="{{ font }}">{{ font }}</option>
+                            </select>
+                        </div>
+                        <input placeholder="Font Size" [(ngModel)]="canvasController.canvasConfig.fontSize" (input)="fontSizeChanged($event.target.value)">
+                        <app-color-picker (colorSelected)="fontColorChanged($event)" [colorOptions]="textColorOptions"></app-color-picker>
+                    </div>
+                    <div class="padding-left padding-right">
+                        <p class="mat-body dark-light">Placement</p>
+                        <mat-radio-group value="above" class="column-radio-group" aria-label="Select an option"
+                        [(ngModel)]="canvasController.canvasConfig.textPlacement" (change)="captionPlacementChanged($event.value)">
+                            <mat-radio-button value="above">Above</mat-radio-button>
+                            <mat-radio-button value="below">Below</mat-radio-button>
+                            <mat-radio-button value="none">None</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Background settings -->
+            <div class="editor-row">
+                <p class="mat-h1 dark-light">Background</p>
+                <div class="row margin-top">
+                <div class="padding-right border-right">
+                    <p class="mat-body dark-light">Type</p>
+                    <mat-radio-group [(ngModel)]="canvasController.canvasConfig.backgroundType" class="column-radio-group" aria-label="Select an option" (change)="backgroundTypeChanged($event.value)">
+                        <mat-radio-button value="color">Solid Color</mat-radio-button>
+                        <mat-radio-button value="gradient">Gradient</mat-radio-button>
+                        <mat-radio-button value="image">Image</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div class="padding-left padding-right">
+                    <p class="mat-body dark-light">Options</p>
+                    <div *ngIf="canvasController.canvasConfig.backgroundType == 'color'"> 
+                        <input class="color-input" type="button" (colorPickerChange)="backgroundSolidColorChanged($event)" [(colorPicker)]="canvasController.canvasConfig.backgroundSolidColor" [style.background]="canvasController.canvasConfig.backgroundSolidColor"/>
+                        <p class="mat-body lighter color-tooltip">color</p>
+                    </div>
+                    <div *ngIf="canvasController.canvasConfig.backgroundType == 'gradient'" class="row">
+                        <div>
+                            <input class="color-input" type="button" (colorPickerChange)="backgroundGradientStartColorChanged($event)" [(colorPicker)]="canvasController.canvasConfig.backgroundGradientStartColor"
+                            [style.background]="canvasController.canvasConfig.backgroundGradientStartColor"/>
+                            <p class="mat-body lighter color-tooltip">from</p>
+                        </div>
+                        <div class="margin-left">
+                            <input class="color-input" type="button" (colorPickerChange)="backgroundGradientEndColorChanged($event)" [(colorPicker)]="canvasController.canvasConfig.backgroundGradientEndColor"
+                            [style.background]="canvasController.canvasConfig.backgroundGradientEndColor"/>
+                            <p class="mat-body lighter color-tooltip">to</p>
+                        </div>
+                    </div>
+                    <div *ngIf="canvasController.canvasConfig.backgroundType == 'image'">
+                        <span>
+                            <app-image-picker (fileSelected)="backgroundChanged($event)"></app-image-picker>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Screenshot settings -->
+        <div class="editor-row">
+            <p class="mat-h1 dark-light">Screenshot</p>
+            <span>
+                <app-image-picker (fileSelected)="screenshotChanged($event)"></app-image-picker>
+            </span>
+        </div>
+    </div>
+</div>

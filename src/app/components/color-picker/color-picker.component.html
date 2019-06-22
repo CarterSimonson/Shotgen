@@ -1,0 +1,8 @@
+<div class="row">
+  <button *ngFor="let color of colorOptions"
+  disableRipple="true"
+  [class.selected]="color == selectedColor"
+  [class.mat-raised-button]="color == selectedColor"
+  [class.mat-flat-button]="color != selectedColor"
+  mat-flat-button [style.background-color]="color" (click)="colorChanged(color)"></button>
+</div>

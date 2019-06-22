@@ -1,0 +1,6 @@
+<div>
+    <span style="color:red;" *ngIf="message">{{ message }}</span>
+    <button type="button" color="primary" mat-raised-button (click)="file.click()">Choose File</button>
+    <input #file type="file" accept='image/*' (change)="preview(file.files)" />
+    <span class="mat-subheading-2 light" style="margin-left: 16px;">{{ imagePath }}</span>
+</div>
