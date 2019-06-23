@@ -5,6 +5,7 @@ import { CanvasConfig } from 'src/models/canvas-config';
 import { DeviceConfig } from 'src/models/device-config';
 import { DeviceConfigs } from 'src/config/devices';
 import { DeviceColor } from 'src/models/device-color';
+import { SWIPER_CONFIG, SwiperConfigInterface } from 'ngx-swiper-wrapper';
 
 @Component({
   selector: 'app-editor',
@@ -12,6 +13,11 @@ import { DeviceColor } from 'src/models/device-color';
   styleUrls: ['./editor.component.scss']
 })
 export class EditorComponent implements OnInit {
+  swiperConfig: SwiperConfigInterface = {
+    direction: "horizontal",
+    slidesPerView: 3
+  }
+
   canvasController: CanvasController;
 
   deviceOptions = DeviceConfigs.devices;

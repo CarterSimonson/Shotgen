@@ -164,6 +164,9 @@ export class CanvasController {
                 this.deviceStage.addChild(bitmap);
                 this.deviceStage.update();
 
+                //Draw screenshot
+                this.drawScreenshot();
+
                 //Resolve promise
                 resolve();
             }
@@ -256,9 +259,11 @@ export class CanvasController {
         this.drawText();
     }
     
-    setTextPlacement(placement: string) {
+    async setTextPlacement(placement: string) {
         this.canvasConfig.textPlacement = placement;
-        this.drawText();
+        await this.drawText();
+        await this.drawDevice();
+        await this.drawScreenshot();
     }
 
     drawText() {
@@ -269,6 +274,11 @@ export class CanvasController {
             //If the text field is empty, or our placement is set to none, clear the text height and resolve
             if(this.canvasConfig.text.trim() == "" || this.canvasConfig.textPlacement == "none") {
                 this.canvasConfig.textHeight = 0;
+
+                //Redraw device frame and screenshot
+                this.drawDevice();
+                this.drawScreenshot();
+
                 resolve();
                 return;
             }
@@ -282,7 +292,7 @@ export class CanvasController {
             text.lineWidth = this.width * 0.95;
 
             //Set our text variables if applicable
-            this.canvasConfig.textHeight = text.getMeasuredHeight() + 2 * this.canvasConfig.textMargin;
+            let textHeight = text.getMeasuredHeight() + 2 * this.canvasConfig.textMargin;
 
             //Calculate the Y position
             if(this.canvasConfig.textPlacement == "above") {
@@ -296,6 +306,14 @@ export class CanvasController {
             //Draw!
             this.captionStage.addChild(text);
             this.captionStage.update();
+
+            //If our previous text heigh is different then our current text height, we need to redraw the screenshot and device frame
+            if(this.canvasConfig.textHeight != textHeight) {
+                this.drawDevice();
+                this.drawScreenshot();
+            }
+
+            this.canvasConfig.textHeight = textHeight;
 
             resolve();
         });

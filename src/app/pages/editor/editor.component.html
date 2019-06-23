@@ -8,7 +8,7 @@
     </mat-toolbar>
     <div class="row flex-fill-height">
         <div class="col-xs-8 flex flex-center-horizontal flex-center-vertical">
-            <div id="canvasContainer" style="position: relative">
+            <div id="canvasContainer">
                 <canvas class="renderCanvas" id="backgroundCanvas"></canvas>
                 <canvas class="renderCanvas" id="captionCanvas"></canvas>
                 <canvas class="renderCanvas" id="screenshotCanvas"></canvas>
@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="col-xs-4 raised editor-options" style="height: 100% !important; overflow-y: scroll;">
-            <!-- Caption settings -->
+            <!-- Device settings -->
             <div class="editor-row">
                 <p class="mat-h1 dark-light">Device</p>
                 <div class="row">
@@ -29,11 +29,19 @@
                 <app-device-color-picker [device]="canvasController.canvasConfig.deviceConfig" (colorSelected)="deviceColorChanged($event)"></app-device-color-picker>
             </div>
 
+            <!-- Screenshot settings -->
+            <div class="editor-row">
+                <p class="mat-h1 dark-light">Screenshot</p>
+                <span>
+                    <app-image-picker (fileSelected)="screenshotChanged($event)"></app-image-picker>
+                </span>
+            </div>
+
             <!-- Caption settings -->
             <div class="editor-row">
                 <p class="mat-h1 dark-light">Caption</p>
-                <input class="flex flex-grow-horizontal" placeholder="Text" 
-                [(ngModel)]="canvasController.canvasConfig.text" (input)="captionChanged($event.target.value)">
+                <textarea class="flex flex-grow-horizontal" placeholder="Text" 
+                [(ngModel)]="canvasController.canvasConfig.text" (input)="captionChanged($event.target.value)"></textarea>
                 
                 <div class="row margin-top">
                     <div class="padding-right border-right">
@@ -95,13 +103,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Screenshot settings -->
-        <div class="editor-row">
-            <p class="mat-h1 dark-light">Screenshot</p>
-            <span>
-                <app-image-picker (fileSelected)="screenshotChanged($event)"></app-image-picker>
-            </span>
         </div>
     </div>
 </div>

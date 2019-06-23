@@ -38,6 +38,21 @@ input {
     margin-bottom: 8px;
 }
 
+textarea {
+    //Styles
+    background-color: #303030;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: "Roboto", serif;
+    color: #e2e2e2;
+    padding: 8px;
+    margin-bottom: 8px;
+}
+
+textarea:focus {
+    outline-width: 0;
+}
+
 select {
     //Styles
     background-color: #303030;

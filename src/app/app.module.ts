@@ -14,6 +14,9 @@ import { ImagePickerComponent } from './components/image-picker/image-picker.com
 import { ColorPickerComponent } from './components/color-picker/color-picker.component';
 import { DeviceColorPickerComponent } from './components/device-color-picker/device-color-picker.component';
 
+//Swiper carousel
+import { SwiperModule } from 'ngx-swiper-wrapper';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +32,8 @@ import { DeviceColorPickerComponent } from './components/device-color-picker/dev
     FormsModule,
     BrowserAnimationsModule,
     MaterialModule,
-    ColorPickerModule
+    ColorPickerModule,
+    SwiperModule
   ],
   providers: [],
   bootstrap: [AppComponent]
