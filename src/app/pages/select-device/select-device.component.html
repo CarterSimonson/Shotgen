@@ -1,0 +1,18 @@
+<div class="main-container">
+  <div class="row">
+    <div class="col-xs-12 padding">
+      <p class="light header-text">Select a device</p>
+    </div>
+  </div>
+  <div class="row boxed">
+    <div *ngFor="let phone of phones" class="col-xs-12 col-sm-4 col-md-2 col-lg-2 phone-display">
+        <mat-card>
+          <img mat-card-image src="../../../assets/devices/iPhone 8/Gold.png" style="height: 99%; width: 99%; margin-left: 0.5%; margin-top: 0.5%;" (click)="deviceClicked(device)">
+          <mat-card-content>
+            <p class="mat-h1 text-center">iPhone 8</p>
+          </mat-card-content>
+        </mat-card>
+        <!-- <button mat-raised-button color="primary" class="continue-button">Continue</button> -->
+    </div>
+  </div>
+</div>

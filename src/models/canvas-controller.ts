@@ -30,18 +30,29 @@ export class CanvasController {
     backgroundCanvasContext: CanvasRenderingContext2D
     backgroundStage: createjs.Stage;
 
-    constructor(containerID: string, deviceCanvasID: string, screenshotCanvasID: string, captionCanvasID: string, backgroundCanvasID: string, width: number, height: number, canvasConfig: CanvasConfig) {
+    exportCanvasID: string;
+    exportCanvas: HTMLCanvasElement;
+    exportCanvasContext: CanvasRenderingContext2D;
+
+    constructor(width: number, height: number, canvasConfig: CanvasConfig) {
         //Set member variables
-        this.containerID = containerID;
-        this.screenshotCanvasID = screenshotCanvasID;
-        this.deviceCanvasID = deviceCanvasID;
-        this.captionCanvasID = captionCanvasID;
-        this.backgroundCanvasID = backgroundCanvasID;
+        this.containerID = this.generateID();
+        this.screenshotCanvasID = this.generateID();
+        this.deviceCanvasID = this.generateID();
+        this.captionCanvasID = this.generateID();
+        this.backgroundCanvasID = this.generateID();
+        this.exportCanvasID = this.generateID();
 
         this.width = width;
         this.height = height;
         this.canvasConfig = canvasConfig;
 
+        setTimeout(() => {
+            this.initialize();
+        }, 100);
+    }
+
+    initialize() {
         //Setup our canvas scale and initialize create.js
         this.setupCanvas();
         this.initCreateJS();
@@ -72,6 +83,9 @@ export class CanvasController {
         this.backgroundCanvas = <HTMLCanvasElement>document.getElementById(this.backgroundCanvasID);
         this.backgroundCanvasContext = this.backgroundCanvas.getContext("2d");
 
+        this.exportCanvas = <HTMLCanvasElement>document.getElementById(this.exportCanvasID);
+        this.exportCanvasContext = this.exportCanvas.getContext("2d");
+
         container.style.height = displayHeightPX;
         container.style.width = displayWidthPX;
         
@@ -80,7 +94,7 @@ export class CanvasController {
         container.style.width = displayWidthPX;
 
         //Scale canvas elements
-        for(let canvas of [this.screenshotCanvas, this.deviceCanvas, this.captionCanvas, this.backgroundCanvas]) {
+        for(let canvas of [this.screenshotCanvas, this.deviceCanvas, this.captionCanvas, this.backgroundCanvas, this.exportCanvas]) {
             canvas.style.height = displayHeightPX;
             canvas.style.width = displayWidthPX;
             canvas.height = this.height;
@@ -118,7 +132,7 @@ export class CanvasController {
 
     //Device ---
     setDeviceColor(deviceColor: DeviceColor) {
-        this.canvasConfig.deviceConfig.selectedColor = deviceColor;
+        this.canvasConfig.deviceColor = deviceColor;
         this.drawDevice();
     }
 
@@ -127,7 +141,7 @@ export class CanvasController {
         this.clearStage(this.deviceStage);
 
         let renderPromise = new Promise((resolve, reject) => {
-            let bitmap = new createjs.Bitmap(this.canvasConfig.deviceConfig.selectedColor.image);
+            let bitmap = new createjs.Bitmap(this.canvasConfig.deviceColor.image);
 
             //If the image failed to load
             if(bitmap.image === undefined) {
@@ -347,6 +361,26 @@ export class CanvasController {
         this.drawBackground();
     }
 
+    //Merges all canvases into the top (device) canvas, generates a base64 image, and downloads it
+    downloadImage() {
+        this.exportCanvasContext.drawImage(this.backgroundCanvas, 0, 0, this.width, this.height);
+        this.exportCanvasContext.drawImage(this.captionCanvas, 0, 0, this.width, this.height);
+        this.exportCanvasContext.drawImage(this.screenshotCanvas, 0, 0, this.width, this.height);
+        this.exportCanvasContext.drawImage(this.deviceCanvas, 0, 0, this.width, this.height);
+
+        let pngData = this.exportCanvas.toDataURL("image/png");
+
+        this.exportCanvas.toBlob(blob => {
+            const a = document.createElement('a');
+            a.download = this.generateID();
+            a.href = URL.createObjectURL(blob);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            this.exportCanvasContext.clearRect(0, 0, this.width, this.height);
+        });
+    }
+
     drawBackground() {
         //Clear previous drawings
         this.clearStage(this.backgroundStage);
@@ -402,5 +436,9 @@ export class CanvasController {
         });
 
         return renderPromise;
+    }
+
+    generateID() {
+        return '_' + Math.random().toString(36).substr(2, 9);
     }
 }

@@ -7,7 +7,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class ColorPickerComponent implements OnInit {
   @Input() colorOptions: string[];
-  @Input() defaultColor: string;
+  @Input() set color(newColor: string) { this.selectedColor = newColor }
   @Output() colorSelected: EventEmitter<string> = new EventEmitter();
   selectedColor: string;
 
@@ -15,14 +15,14 @@ export class ColorPickerComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.defaultColor == null) {
+    if(this.selectedColor == null) {
       this.setDefaultColor();
     }
   }
 
   setDefaultColor() {
-    this.defaultColor = this.colorOptions[0];
-    this.colorChanged(this.defaultColor);
+    this.selectedColor = this.colorOptions[0];
+    this.colorChanged(this.selectedColor);
   }
 
   colorChanged(color: string) {

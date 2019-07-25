@@ -103,6 +103,18 @@ select:hover {
     color: $dark-light;
 }
 
+.header-text {
+    font-size: 48px;
+    font-weight: lighter;
+    letter-spacing: 2px;
+    text-align: center;
+    font-family: "Roboto", serif;
+}
+
+.text-center {
+    text-align: center;
+}
+
 //Toolbar
 .mat-toolbar {
     background-color: $primary;
@@ -151,6 +163,14 @@ select:hover {
     padding: 0px !important;
 }
 
+.padding {
+    padding: 16px;
+}
+
+.extra-padding {
+    padding: 32px;
+}
+
 .margin-left {
     margin-left: 16px;
 }
@@ -163,6 +183,15 @@ select:hover {
     margin-top: 8px
 }
 
+.margin {
+    margin: 16px;
+}
+
 .no-margin {
     margin: 0px !important;
+}
+
+.boxed {
+    padding-left: 10vw;
+    padding-right: 10vw;
 }

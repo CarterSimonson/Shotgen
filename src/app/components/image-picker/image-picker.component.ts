@@ -1,4 +1,5 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { ImagePickerResponse } from 'src/models/image-picker-response';
 
 @Component({
   selector: 'app-image-picker',
@@ -6,11 +7,18 @@ import { Component, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./image-picker.component.scss']
 })
 export class ImagePickerComponent {
-  @Output() fileSelected: EventEmitter<string> = new EventEmitter();
+  @Input() set url(newURL: string) {
+    if(newURL == undefined) {
+      newURL = "None selected";
+    }
+    this.imagePath = newURL 
+  }
+  @Output() fileSelected: EventEmitter<ImagePickerResponse> = new EventEmitter();
 
   public imagePath: string = "None selected";
   imgURL: any;
   public message: string;
+  inputData: string;
  
   preview(files) {
     if (files.length === 0)
@@ -29,7 +37,11 @@ export class ImagePickerComponent {
     reader.readAsDataURL(files[0]); 
     reader.onload = (_event) => { 
       this.imgURL = reader.result;
-      this.fileSelected.emit(reader.result as string);
+      this.fileSelected.emit(new ImagePickerResponse(this.imagePath, reader.result as string));
     }
+
+    //Clear input
+    this.inputData = "";
+    this.message = "";
   }
 }

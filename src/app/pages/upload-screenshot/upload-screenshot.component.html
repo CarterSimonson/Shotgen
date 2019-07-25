@@ -1,0 +1,10 @@
+<div class="main-container" ondrop="drop(event)" ondragover="allowDrop(event)">
+  <div class="row">
+    <div class="col-xs-12 padding">
+      <p class="light header-text">Upload a screenshot</p>
+      <div class="row" style="justify-content: center;">
+        <app-image-picker (fileSelected)="fileSelected($event)"></app-image-picker>
+      </div>
+    </div>
+  </div>
+</div>

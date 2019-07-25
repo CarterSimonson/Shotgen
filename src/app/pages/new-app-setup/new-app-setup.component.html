@@ -1,0 +1,6 @@
+<div class="main-container">
+  <app-select-platform *ngIf="tab === 'select-platform'" (platformSelected)="platformSelected($event)"></app-select-platform>
+  <app-select-device *ngIf="tab === 'select-device'" (deviceSelected)="deviceSelected($event)"></app-select-device>
+  <app-upload-screenshot *ngIf="tab === 'upload-screenshot'" (screenshotUploaded)="screenshotUploaded($event)"></app-upload-screenshot>
+  <app-select-layout *ngIf="tab === 'select-layout'"></app-select-layout>
+</div>

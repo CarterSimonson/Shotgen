@@ -1,0 +1,27 @@
+<div class="main-container">
+  <div class="row">
+    <div class="col-xs-12 padding">
+      <p class="light header-text">Select a platform</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-6 col-sm-3 col-sm-offset-3 padding">
+      <mat-card (click)="platformClicked('android')">
+        <img mat-card-image src="../../../assets/platforms/android.png" alt="Android">
+        <mat-card-content>
+          <p class="mat-h1 text-center">Android</p>
+        </mat-card-content>
+      </mat-card>
+      <button mat-raised-button color="primary" class="continue-button" (click)="platformClicked('android')">Continue</button>         
+    </div>
+    <div class="col-xs-6 col-sm-3 padding">
+      <mat-card (click)="platformClicked('ios')">
+        <img mat-card-image src="../../../assets/platforms/ios.png" alt="iOS">
+        <mat-card-content>
+          <p class="mat-h1 text-center">iOS</p>
+        </mat-card-content>
+      </mat-card>
+      <button mat-raised-button color="primary" class="continue-button" (click)="platformClicked('ios')">Continue</button>         
+    </div>
+  </div>
+</div>

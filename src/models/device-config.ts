@@ -6,7 +6,6 @@ export class DeviceConfig {
     width: number;
     viewportWidth: number;
     viewportHeight: number;
-    selectedColor: DeviceColor;
     colors: DeviceColor[];
 
     constructor(name: string, width: number, height: number, viewportWidth: number, viewportHeight: number, colors: DeviceColor[]) {
@@ -16,7 +15,5 @@ export class DeviceConfig {
         this.viewportWidth = viewportWidth;
         this.viewportHeight = viewportHeight;
         this.colors = colors;
-        
-        this.selectedColor = this.colors[0];
     }
 }

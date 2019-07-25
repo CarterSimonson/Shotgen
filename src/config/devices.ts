@@ -11,7 +11,7 @@ export class DeviceConfigs {
         ]),
 
         //Pixel 3
-        new DeviceConfig("Pixel 3", 1000, 2105, 899, 1793, [
+        new DeviceConfig("Pixel 3", 1000, 2105, 899, 1800, [
             new DeviceColor("Just Black", "assets/devices/Pixel 3/Just Black.png", "#141414"),
             new DeviceColor("Clearly White", "assets/devices/Pixel 3/Clearly White.png", "#ededed"),
             new DeviceColor("Not Pink", "assets/devices/Pixel 3/Not Pink.png", "#e5d6d3"),

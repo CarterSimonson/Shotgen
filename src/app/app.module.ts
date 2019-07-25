@@ -16,6 +16,12 @@ import { DeviceColorPickerComponent } from './components/device-color-picker/dev
 
 //Swiper carousel
 import { SwiperModule } from 'ngx-swiper-wrapper';
+import { AppsComponent } from './pages/apps/apps.component';
+import { UploadScreenshotComponent } from './pages/upload-screenshot/upload-screenshot.component';
+import { SelectDeviceComponent } from './pages/select-device/select-device.component';
+import { SelectLayoutComponent } from './pages/select-layout/select-layout.component';
+import { SelectPlatformComponent } from './pages/select-platform/select-platform.component';
+import { NewAppSetupComponent } from './pages/new-app-setup/new-app-setup.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +29,13 @@ import { SwiperModule } from 'ngx-swiper-wrapper';
     EditorComponent,
     ImagePickerComponent,
     ColorPickerComponent,
-    DeviceColorPickerComponent
+    DeviceColorPickerComponent,
+    AppsComponent,
+    UploadScreenshotComponent,
+    SelectDeviceComponent,
+    SelectLayoutComponent,
+    SelectPlatformComponent,
+    NewAppSetupComponent
   ],
   imports: [
     BrowserModule,

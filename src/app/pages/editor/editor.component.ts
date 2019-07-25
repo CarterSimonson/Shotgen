@@ -6,6 +6,7 @@ import { DeviceConfig } from 'src/models/device-config';
 import { DeviceConfigs } from 'src/config/devices';
 import { DeviceColor } from 'src/models/device-color';
 import { SWIPER_CONFIG, SwiperConfigInterface } from 'ngx-swiper-wrapper';
+import { ImagePickerResponse } from 'src/models/image-picker-response';
 
 @Component({
   selector: 'app-editor',
@@ -15,9 +16,17 @@ import { SWIPER_CONFIG, SwiperConfigInterface } from 'ngx-swiper-wrapper';
 export class EditorComponent implements OnInit {
   swiperConfig: SwiperConfigInterface = {
     direction: "horizontal",
-    slidesPerView: 3
+    centeredSlides: true,
+    slidesPerView: 2,
+    breakpoints: {
+      1000: {
+        slidesPerView: 1,
+        spaceBetween: 16
+      }
+    }
   }
 
+  canvasControllers: CanvasController[] = [];
   canvasController: CanvasController;
 
   deviceOptions = DeviceConfigs.devices;
@@ -41,16 +50,27 @@ export class EditorComponent implements OnInit {
     "Impact"
   ];
 
-  constructor() {}
+  constructor() {
+  }
 
   ngOnInit() {
-    let canvasConfig = new CanvasConfig(DeviceConfigs.devices[0], 0.9);
-    this.canvasController = new CanvasController("canvasContainer", "deviceCanvas", "screenshotCanvas", "captionCanvas", "backgroundCanvas", 1080, 1920, canvasConfig);
+    this.canvasControllers.push(new CanvasController(1080, 1920, new CanvasConfig(DeviceConfigs.devices[0], 0.9)));
+    this.canvasControllers.push(new CanvasController(1080, 1920, new CanvasConfig(DeviceConfigs.devices[0], 0.9)));
+    this.canvasControllers.push(new CanvasController(1080, 1920, new CanvasConfig(DeviceConfigs.devices[0], 0.9)));
+    this.canvasController = this.canvasControllers[0];
+  }
+
+  exportScreenshots() {
+    this.canvasController.downloadImage();
+  }
+  
+  slideChanged(index: number) {
+    this.canvasController = this.canvasControllers[index];
   }
 
   //Device
   deviceChanged(newDevice: DeviceConfig) {
-    this.canvasController.setDeviceColor(newDevice.selectedColor);
+    this.canvasController.setDeviceColor(newDevice.colors[0]);
   }
 
   deviceColorChanged(deviceColor: DeviceColor) {
@@ -95,11 +115,13 @@ export class EditorComponent implements OnInit {
     this.canvasController.setGradientEndColor(color);
   }
 
-  backgroundChanged(newBackground: string) {
-    this.canvasController.setBackgroundImage(newBackground);
+  backgroundChanged(newBackground: ImagePickerResponse) {
+    this.canvasController.canvasConfig.backgroundURL = newBackground.url;
+    this.canvasController.setBackgroundImage(newBackground.data);
   }
 
-  screenshotChanged(newScreenshot: string) {
-    this.canvasController.setScreenshot(newScreenshot);
+  screenshotChanged(newScreenshot: ImagePickerResponse) {
+    this.canvasController.canvasConfig.screenshotURL = newScreenshot.url;
+    this.canvasController.setScreenshot(newScreenshot.data);
   }
 }

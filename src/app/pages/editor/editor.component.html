@@ -3,17 +3,22 @@
         <mat-toolbar-row>
             <span>Editor</span>
             <span class="toolbar-spacer"></span>
-            <button mat-button>Export</button>
+            <button mat-button (click)="exportScreenshots()">Export</button>
         </mat-toolbar-row>
     </mat-toolbar>
     <div class="row flex-fill-height">
-        <div class="col-xs-8 flex flex-center-horizontal flex-center-vertical">
-            <div id="canvasContainer">
-                <canvas class="renderCanvas" id="backgroundCanvas"></canvas>
-                <canvas class="renderCanvas" id="captionCanvas"></canvas>
-                <canvas class="renderCanvas" id="screenshotCanvas"></canvas>
-                <canvas class="renderCanvas" id="deviceCanvas"></canvas>
-            </div>
+        <div class="col-xs-8 no-padding">
+            <swiper [config]="swiperConfig" (indexChange)="slideChanged($event)">
+                <div *ngFor="let controller of canvasControllers" class="swiper-slide">
+                    <div id="{{ controller.containerID }}" class="canvasContainer">
+                        <canvas class="renderCanvas" id="{{ controller.exportCanvasID }}"></canvas>
+                        <canvas class="renderCanvas" id="{{ controller.backgroundCanvasID }}"></canvas>
+                        <canvas class="renderCanvas" id="{{ controller.captionCanvasID }}"></canvas>
+                        <canvas class="renderCanvas" id="{{ controller.screenshotCanvasID }}"></canvas>
+                        <canvas class="renderCanvas" id="{{ controller.deviceCanvasID }}"></canvas>
+                    </div>
+                </div>
+            </swiper>
         </div>
         <div class="col-xs-4 raised editor-options" style="height: 100% !important; overflow-y: scroll;">
             <!-- Device settings -->
@@ -22,18 +27,18 @@
                 <div class="row">
                     <div class="col-auto">
                         <select [(ngModel)]="canvasController.canvasConfig.deviceConfig" (ngModelChange)="deviceChanged($event)"> 
-                            <option *ngFor="let device of deviceOptions" [ngValue]="device">{{ device.name }}</option>
+                            <option *ngFor="let device of deviceOptions" [(ngValue)]="device">{{ device.name }}</option>
                         </select>
                     </div>
                 </div>
-                <app-device-color-picker [device]="canvasController.canvasConfig.deviceConfig" (colorSelected)="deviceColorChanged($event)"></app-device-color-picker>
+                <app-device-color-picker [deviceColor]="canvasController.canvasConfig.deviceColor" [device]="canvasController.canvasConfig.deviceConfig" (colorSelected)="deviceColorChanged($event)"></app-device-color-picker>
             </div>
 
             <!-- Screenshot settings -->
             <div class="editor-row">
                 <p class="mat-h1 dark-light">Screenshot</p>
                 <span>
-                    <app-image-picker (fileSelected)="screenshotChanged($event)"></app-image-picker>
+                    <app-image-picker [url]="canvasController.canvasConfig.screenshotURL" (fileSelected)="screenshotChanged($event)"></app-image-picker>
                 </span>
             </div>
 
@@ -52,7 +57,7 @@
                             </select>
                         </div>
                         <input placeholder="Font Size" [(ngModel)]="canvasController.canvasConfig.fontSize" (input)="fontSizeChanged($event.target.value)">
-                        <app-color-picker (colorSelected)="fontColorChanged($event)" [colorOptions]="textColorOptions"></app-color-picker>
+                        <app-color-picker (colorSelected)="fontColorChanged($event)" [colorOptions]="textColorOptions" [color]="canvasController.canvasConfig.textColor"></app-color-picker>
                     </div>
                     <div class="padding-left padding-right">
                         <p class="mat-body dark-light">Placement</p>
@@ -98,7 +103,7 @@
                     </div>
                     <div *ngIf="canvasController.canvasConfig.backgroundType == 'image'">
                         <span>
-                            <app-image-picker (fileSelected)="backgroundChanged($event)"></app-image-picker>
+                            <app-image-picker [url]="canvasController.canvasConfig.backgroundURL" (fileSelected)="backgroundChanged($event)"></app-image-picker>
                         </span>
                     </div>
                 </div>
