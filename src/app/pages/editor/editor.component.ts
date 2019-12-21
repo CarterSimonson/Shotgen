@@ -17,7 +17,17 @@ export class EditorComponent implements OnInit {
   swiperConfig: SwiperConfigInterface = {
     direction: "horizontal",
     centeredSlides: true,
-    slidesPerView: 2,
+    slidesPerView: 2.2,
+    effect: "coverflow",
+    coverflowEffect: {
+      rotate: 20,
+      slideShadows: false
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      type: "bullets",
+      clickable: true
+    },
     breakpoints: {
       1000: {
         slidesPerView: 1,

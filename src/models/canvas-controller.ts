@@ -64,7 +64,7 @@ export class CanvasController {
     //Initializes the canvas elements to approx. half of the screens height
     //and sets the correct width/height pixel density
     setupCanvas() {
-        let screenRatio = ((0.7) * screen.height) / this.height
+        let screenRatio = ((0.68) * screen.height) / this.height
         let displayHeightPX = Math.floor(screenRatio * this.height) + "px";
         let displayWidthPX = Math.floor(screenRatio * this.width) + "px";
 

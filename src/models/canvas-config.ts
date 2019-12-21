@@ -24,9 +24,9 @@ export class CanvasConfig {
 
     //Background
     backgroundType: string = "color";
-    backgroundSolidColor: string = "#e96443";
-    backgroundGradientStartColor: string = "#e96443";
-    backgroundGradientEndColor: string = "#904e95";
+    backgroundSolidColor: string = "#038dff";
+    backgroundGradientStartColor: string = "#038dff";
+    backgroundGradientEndColor: string = "#5439ab";
     backgroundImage: string;
 
     constructor(deviceConfig: DeviceConfig, scale: number) {
