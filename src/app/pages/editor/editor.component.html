@@ -7,10 +7,13 @@
         </mat-toolbar-row>
     </mat-toolbar>
     <div class="row flex-fill-height">
-        <div class="col-xs-8 no-padding content-height">
-            <swiper [config]="swiperConfig" (indexChange)="slideChanged($event)" effect="flip">
+        <div class="col-xs-8 no-padding content-height" style="position: relative">
+            <swiper #swiperWrapper [config]="swiperConfig" (indexChange)="slideChanged($event)" effect="flip">
                 <div *ngFor="let controller of canvasControllers" class="swiper-slide">
-                    <div id="{{ controller.containerID }}" class="canvasContainer">
+                    <div id="{{ controller.containerID }}" class="canvasContainer" style="position: relative">
+                        <button mat-mini-fab class="remove-button" color="warn" (click)="removeClicked(controller)">
+                            <mat-icon>clear</mat-icon>
+                        </button>
                         <canvas class="renderCanvas" id="{{ controller.exportCanvasID }}"></canvas>
                         <canvas class="renderCanvas" id="{{ controller.backgroundCanvasID }}"></canvas>
                         <canvas class="renderCanvas" id="{{ controller.captionCanvasID }}"></canvas>
@@ -19,6 +22,9 @@
                     </div>
                 </div>
             </swiper>
+            <button mat-fab class="add-button" (click)="addClicked()">
+                <mat-icon>add</mat-icon>
+            </button>
         </div>
         <div class="col-xs-4 raised editor-options content-height" style="overflow-y: scroll">
             <!-- Device settings -->

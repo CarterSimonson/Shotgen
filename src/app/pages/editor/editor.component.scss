@@ -16,6 +16,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow-x: hidden !important;
 }
 
 .renderCanvas {
@@ -46,4 +47,18 @@
     margin: 0px;
     padding: 0px;
     text-align: center;
+}
+
+.add-button {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    z-index: 99;
+}
+
+.remove-button {
+    position: absolute;
+    right: -16px;
+    top: -16px;
+    z-index: 99;
 }

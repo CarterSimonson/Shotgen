@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
 import * as createjs from 'createjs-module';
 import { CanvasController } from 'src/models/canvas-controller';
 import { CanvasConfig } from 'src/models/canvas-config';
@@ -14,6 +14,8 @@ import { ImagePickerResponse } from 'src/models/image-picker-response';
   styleUrls: ['./editor.component.scss']
 })
 export class EditorComponent implements OnInit {
+  @ViewChild('swiperWrapper', null) public swiperWrapper: any;
+
   swiperConfig: SwiperConfigInterface = {
     direction: "horizontal",
     centeredSlides: true,
@@ -64,10 +66,50 @@ export class EditorComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.canvasControllers.push(new CanvasController(1080, 1920, new CanvasConfig(DeviceConfigs.devices[0], 0.9)));
-    this.canvasControllers.push(new CanvasController(1080, 1920, new CanvasConfig(DeviceConfigs.devices[0], 0.9)));
+    // this.canvasControllers.push(new CanvasController(1080, 1920, new CanvasConfig(DeviceConfigs.devices[0], 0.9)));
+    // this.canvasControllers.push(new CanvasController(1080, 1920, new CanvasConfig(DeviceConfigs.devices[0], 0.9)));
     this.canvasControllers.push(new CanvasController(1080, 1920, new CanvasConfig(DeviceConfigs.devices[0], 0.9)));
     this.canvasController = this.canvasControllers[0];
+  }
+
+  addClicked() {
+    //First, check if we have too many (8+) editors
+    if(this.canvasControllers.length === 8) {
+      alert("Error: cannot create more than eight editor windows");
+      return;
+    }
+
+    // console.log(this.swiperWrapper);
+    this.canvasControllers.push(new CanvasController(1080, 1920, new CanvasConfig(DeviceConfigs.devices[0], 0.9)));
+    this.swiperWrapper.directiveRef.update();
+    
+    //Wait for the new slide to process, then navigate to it
+    setTimeout(() => {
+      const index = this.canvasControllers.length - 1;
+      this.swiperWrapper.directiveRef.setIndex(index);
+    }, 10);
+  }
+
+  removeClicked(selectedController: CanvasController) {
+    //First, check if our array length is greater than one
+    if(this.canvasControllers.length === 1) {
+      alert("Error: at least one editor window is required");
+      return;
+    }
+
+    //Loop through each controller until we get a match
+    for(let i = 0; i < this.canvasControllers.length; i++) {
+      const indexController = this.canvasControllers[i];
+
+      if(indexController === selectedController) {
+        this.canvasControllers.splice(i, 1);
+
+        //Update the swiper
+        this.swiperWrapper.directiveRef.update();
+
+        return;
+      }
+    }
   }
 
   exportScreenshots() {
