@@ -11,7 +11,7 @@
             <swiper #swiperWrapper [config]="swiperConfig" (indexChange)="slideChanged($event)" effect="flip">
                 <div *ngFor="let controller of canvasControllers" class="swiper-slide">
                     <div id="{{ controller.containerID }}" class="canvasContainer" style="position: relative">
-                        <button mat-mini-fab class="remove-button" color="warn" (click)="removeClicked(controller)">
+                        <button mat-mini-fab class="remove-button" color="warn" *ngIf="controller === canvasController" (click)="removeClicked(controller)">
                             <mat-icon>clear</mat-icon>
                         </button>
                         <canvas class="renderCanvas" id="{{ controller.exportCanvasID }}"></canvas>

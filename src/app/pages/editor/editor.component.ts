@@ -38,11 +38,6 @@ export class EditorComponent implements OnInit {
     }
   }
 
-  canvasControllers: CanvasController[] = [];
-  canvasController: CanvasController;
-
-  deviceOptions = DeviceConfigs.devices;
-
   textColorOptions = [
     "#e2e2e2", //Light
     "#f3f3f3", //Lighter
@@ -62,6 +57,12 @@ export class EditorComponent implements OnInit {
     "Impact"
   ];
 
+  deviceOptions = DeviceConfigs.devices;
+
+  canvasControllers: CanvasController[] = [];
+  canvasController: CanvasController;
+  swiperIndex: number = 0;
+
   constructor() {
   }
 
@@ -79,7 +80,6 @@ export class EditorComponent implements OnInit {
       return;
     }
 
-    // console.log(this.swiperWrapper);
     this.canvasControllers.push(new CanvasController(1080, 1920, new CanvasConfig(DeviceConfigs.devices[0], 0.9)));
     this.swiperWrapper.directiveRef.update();
     
@@ -102,8 +102,17 @@ export class EditorComponent implements OnInit {
       const indexController = this.canvasControllers[i];
 
       if(indexController === selectedController) {
-        this.canvasControllers.splice(i, 1);
+        //If the index is zero, slide forward
+        if(i === 0) {
+          this.swiperWrapper.directiveRef.nextSlide();
+        }
+        //Else, slide backward
+        else {
+          this.swiperWrapper.directiveRef.prevSlide();
+        }
 
+        this.canvasControllers.splice(i, 1);
+  
         //Update the swiper
         this.swiperWrapper.directiveRef.update();
 
@@ -117,6 +126,8 @@ export class EditorComponent implements OnInit {
   }
   
   slideChanged(index: number) {
+    console.log("Slide changed");
+    this.swiperIndex = index;
     this.canvasController = this.canvasControllers[index];
   }
 
